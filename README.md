@@ -49,19 +49,6 @@ cd GeminiProBot
 python src/gemini.py
 ```
 
-## Usage 🛠️
-The bot supports the following commands:
-
-- `/gem <prompt>`: Generates a response based on a provided text prompt.
-- `/imgai <optional prompt>`: Generates a response based on an image. Ensure you reply to an image with the /imgai command. Optionally, you can provide a prompt along with the command, like `/imgai What is this?`, while replying to a photo to get a more specific response.
-
-## Author 📝
-
-- Name: Bisnu Ray
-- Telegram: [@SmartBisnuBio](https://t.me/SmartBisnuBio)
-
-Feel free to reach out if you have any questions or feedback.
-
 ## 🚀 Deploy with Docker
 
 You can easily run this bot in a container using Docker and docker-compose.
@@ -117,3 +104,16 @@ The bot will start automatically and use the environment variables you provided 
 ---
 
 Now you can manage your bot easily with Docker!
+
+## Usage 🛠️
+The bot supports the following commands:
+
+- `/gem <prompt>`: Generates a response based on a provided text prompt.
+- `/imgai <optional prompt>`: Generates a response based on an image. Ensure you reply to an image with the /imgai command. Optionally, you can provide a prompt along with the command, like `/imgai What is this?`, while replying to a photo to get a more specific response.
+
+## Author 📝
+
+- Name: Bisnu Ray
+- Telegram: [@SmartBisnuBio](https://t.me/SmartBisnuBio)
+
+Feel free to reach out if you have any questions or feedback.
