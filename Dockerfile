@@ -8,7 +8,7 @@ RUN pip install pyrofork google-generativeai pillow
 # Copy the source code into the container
 COPY src/ .
 
-# Create a non-root user and switch to it
+# Create a non-root user and switch to it :D
 RUN useradd -m geminiuser
 RUN chown -R geminiuser:geminiuser /app
 USER geminiuser
