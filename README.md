@@ -1,3 +1,5 @@
+# README.md
+
 <h1 align="center">Gemini Pro Telegram Bot 🌌</h1>
 
 <p align="center">
@@ -44,8 +46,9 @@ pip install pyrofork google-generativeai pillow
 ```sh
 git clone https://github.com/bisnuray/GeminiProBot
 cd GeminiProBot
-python gemini.py
+python src/gemini.py
 ```
+
 ## Usage 🛠️
 The bot supports the following commands:
 
