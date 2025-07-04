@@ -1,0 +1,10 @@
+# Telegram Bot Framework
+pyrogram[fast]
+tgcrypto
+
+# Google Generative AI
+google-generativeai
+pillow
+
+# Para cargar el archivo .env en desarrollo local
+python-dotenv
