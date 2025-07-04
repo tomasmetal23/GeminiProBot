@@ -61,3 +61,59 @@ The bot supports the following commands:
 - Telegram: [@SmartBisnuBio](https://t.me/SmartBisnuBio)
 
 Feel free to reach out if you have any questions or feedback.
+
+## 🚀 Deploy with Docker
+
+You can easily run this bot in a container using Docker and docker-compose.
+
+### 1. Build and Run with Docker Compose
+
+First, make sure you have Docker and docker-compose installed.
+
+Clone the repository and move into the project directory:
+
+```sh
+git clone https://github.com/bisnuray/GeminiProBot
+cd GeminiProBot
+```
+
+Edit the `docker-compose.yml` file and add your API credentials in the `environment` section:
+
+```yaml
+version: "3.8"
+services:
+  gemini_bot:
+    image: ghcr.io/tomasmetal23/geminiprobot:latest
+    environment:
+      - API_ID=your_api_id
+      - API_HASH=your_api_hash
+      - BOT_TOKEN=your_bot_token
+      - GOOGLE_API_KEY=your_google_api_key
+      - MODEL_NAME=gemini-2.5-pro  # You can use any supported Gemini model
+    restart: unless-stopped
+```
+
+Replace the values with your actual API keys and tokens.  
+You can use any supported Gemini model for `MODEL_NAME` (e.g., `gemini-1.5-flash`, `gemini-2.0-flash`, `gemini-2.5-pro`).
+
+### 2. Start the Bot
+
+```sh
+docker-compose up -d
+```
+
+The bot will start automatically and use the environment variables you provided in `docker-compose.yml`.
+
+---
+
+## 🛠️ Environment Variables
+
+- `API_ID`: Your Telegram API ID.
+- `API_HASH`: Your Telegram API Hash.
+- `BOT_TOKEN`: The token from [@BotFather](https://t.me/BotFather).
+- `GOOGLE_API_KEY`: Your Google Generative AI API key.
+- `MODEL_NAME`: (Optional) Gemini model name, default is `gemini-1.5-flash`. You can use newer models like `gemini-2.0-flash` or `gemini-2.5-pro` if your API key supports them.
+
+---
+
+Now you can manage your bot easily with Docker!
