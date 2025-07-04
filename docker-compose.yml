@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   gemini_bot:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/tomasmetal23/geminiprobot:latest
     environment:
       - API_ID=TU_API_ID
       - API_HASH=TU_API_HASH
