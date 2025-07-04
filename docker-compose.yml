@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  gemini_bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - API_ID=TU_API_ID
+      - API_HASH=TU_API_HASH
+      - BOT_TOKEN=TU_BOT_TOKEN
+      - GOOGLE_API_KEY=TU_GOOGLE_API_KEY
+      - MODEL_NAME=gemini-1.5-flash
+    volumes:
+      - ./src:/app/src
+    restart: unless-stopped
+    #command: python gemini.py
