@@ -116,4 +116,10 @@ The bot supports the following commands:
 - Name: Bisnu Ray
 - Telegram: [@SmartBisnuBio](https://t.me/SmartBisnuBio)
 
+## Maintainer & Latest Update 🚀
+
+- **Updated & Maintained by**: Tomás Márquez
+  - Telegram: [@natebrako](https://t.me/natebrako)
+  - *Current Status: Updated to 2025 and ongoing maintenance.*
+  
 Feel free to reach out if you have any questions or feedback.
