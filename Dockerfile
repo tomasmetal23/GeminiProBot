@@ -1,12 +1,12 @@
-FROM python:3.9-slim
+FROM python:3.9-alpine
 
-# Set the working directory
 WORKDIR /app
 
-# Copy the source code into the container
+# Instala dependencias del sistema necesarias para pillow y pyrofork
+RUN apk add --no-cache gcc musl-dev libffi-dev jpeg-dev zlib-dev
+
 COPY src/ .
 
-RUN pip install pyrofork google-generativeai pillow
+RUN pip install --no-cache-dir pyrofork google-generativeai pillow
 
-# Command to run the bot
 CMD ["python", "gemini.py"]
