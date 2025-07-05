@@ -14,23 +14,20 @@
 
 ## Requirements
 
-Before you begin, ensure you have met the following requirements:
+Before you begin, ensure you have met the following requirements for a local setup:
 
-- Python 3.9 or higher.
-- `pyrofork`, `google-generativeai` and `pillow` libraries.
-- A Telegram bot token (you can get one from [@BotFather](https://t.me/BotFather) on Telegram).
-- API ID and Hash: You can get these by creating an application on [my.telegram.org](https://my.telegram.org).
-- To Get `GOOGLE_API_KEY` Open [GOOGLE_API_KEY](https://makersuite.google.com/app/apikey).
+-   Python 3.9 or higher.
+-   All Python libraries listed in the `src/requirements.txt` file. The main libraries are `pyrogram`, `google-generativeai`, and `pillow`.
+-   A Telegram bot token (you can get one from [@BotFather](https://t.me/BotFather) on Telegram).
+-   A Telegram API ID and API Hash (you can get these from [my.telegram.org](https://my.telegram.org)).
+-   A Google Generative AI API Key (you can get one from [Google AI Studio](https://makersuite.google.com/app/apikey)).
 
 ## Installation
 
-To install `pyrofork`, `google-generativeai` and `pillow`, run the following command:
+To install all the required libraries at once, navigate to the project's root directory and run the following command. It is highly recommended to do this inside a virtual environment.
 
 ```bash
-pip install pyrofork google-generativeai pillow
-```
-
-**Note: If you previously installed `pyrogram`, uninstall it before installing `pyrofork`.**
+pip install -r src/requirements.txt
 
 ## Configuration
 
@@ -46,6 +43,7 @@ pip install pyrofork google-generativeai pillow
 ```sh
 git clone https://github.com/bisnuray/GeminiProBot
 cd GeminiProBot
+pip install -r src/requirements.txt
 python src/gemini.py
 ```
 
