@@ -2,7 +2,9 @@ import logging
 import google.generativeai as genai
 from pyrogram import Client, filters
 from PIL import Image
-from config import API_ID, API_HASH, GOOGLE_API_KEY, BOT_TOKEN
+
+# 1. Importamos TODAS las variables necesarias desde config, incluyendo MODEL_NAME
+from config import API_ID, API_HASH, GOOGLE_API_KEY, BOT_TOKEN, MODEL_NAME
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -11,9 +13,13 @@ logger = logging.getLogger(__name__)
 # --- CONFIGURACIÓN Y MODELO ÚNICO DE GOOGLE ---
 try:
     genai.configure(api_key=GOOGLE_API_KEY)
-    # Creamos un único modelo multimodal. 'gemini-1.5-flash-latest' es rápido y puede manejar texto e imágenes.
-    model = genai.GenerativeModel('gemini-1.5-flash-latest')
-    logger.info("Modelo de Gemini cargado exitosamente.")
+    
+    # 2. Usamos directamente la variable MODEL_NAME importada desde config.py
+    model = genai.GenerativeModel(MODEL_NAME)
+    
+    # 3. El log ahora muestra el modelo que se cargó desde la configuración.
+    logger.info(f"Modelo de Gemini cargado exitosamente: {MODEL_NAME}")
+    
 except Exception as e:
     logger.critical(f"No se pudo configurar la API de Google. Verifica tu GOOGLE_API_KEY. Error: {e}")
     # Si no podemos configurar el modelo, no tiene sentido continuar.
