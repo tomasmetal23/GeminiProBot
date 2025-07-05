@@ -105,11 +105,23 @@ The bot will start automatically and use the environment variables you provided 
 
 Now you can manage your bot easily with Docker!
 
-## Usage 🛠️
-The bot supports the following commands:
+## How to Use the Bot 🛠️
 
-- `/gem <prompt>`: Generates a response based on a provided text prompt.
-- `/imgai <optional prompt>`: Generates a response based on an image. Ensure you reply to an image with the /imgai command. Optionally, you can provide a prompt along with the command, like `/imgai What is this?`, while replying to a photo to get a more specific response.
+This bot offers two main features: text generation and image analysis.
+
+### 📝 Text Generation
+
+To generate a text response, use the `/gem` command followed by your question or instruction.
+
+**Example:**
+> `/gem Write a short poem about space.`
+
+### 🖼️ Image Analysis
+
+To ask the bot about an image, follow these steps:
+
+1.  Send an image to the chat.
+2.  Reply directly to that image using the `/imgai` or `/img` command.
 
 ## Author 📝
 
