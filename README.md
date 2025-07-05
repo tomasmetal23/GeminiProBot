@@ -28,7 +28,7 @@ To install all the required libraries at once, navigate to the project's root di
 
 ```bash
 pip install -r src/requirements.txt
-
+```
 ## Configuration
 
 1. Open the `config.py` file in your favorite text editor.
