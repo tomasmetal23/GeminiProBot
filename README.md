@@ -41,7 +41,7 @@ pip install -r src/requirements.txt
 ## Deploy the Bot
 
 ```sh
-git clone https://github.com/bisnuray/GeminiProBot
+git clone https://github.com/tomasmetal23/GeminiProBot.git
 cd GeminiProBot
 pip install -r src/requirements.txt
 python src/gemini.py
