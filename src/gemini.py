@@ -10,19 +10,27 @@ from config import API_ID, API_HASH, GOOGLE_API_KEY, BOT_TOKEN, MODEL_NAME
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# --- NUEVA FUNCIÓN PARA MANEJAR TEXTOS LARGOS ---
+def send_long_message(message, text):
+    """
+    Divide un texto largo en trozos de 4096 caracteres y los envía como mensajes separados,
+    respondiendo al mensaje original del usuario.
+    """
+    MAX_LENGTH = 4096
+    
+    # Dividimos el texto en trozos del tamaño máximo permitido
+    for i in range(0, len(text), MAX_LENGTH):
+        chunk = text[i:i + MAX_LENGTH]
+        # Usamos message.reply() para que cada parte responda al mensaje original del usuario
+        message.reply(chunk, disable_web_page_preview=True)
+
 # --- CONFIGURACIÓN Y MODELO ÚNICO DE GOOGLE ---
 try:
     genai.configure(api_key=GOOGLE_API_KEY)
-    
-    # 2. Usamos directamente la variable MODEL_NAME importada desde config.py
     model = genai.GenerativeModel(MODEL_NAME)
-    
-    # 3. El log ahora muestra el modelo que se cargó desde la configuración.
     logger.info(f"Modelo de Gemini cargado exitosamente: {MODEL_NAME}")
-    
 except Exception as e:
     logger.critical(f"No se pudo configurar la API de Google. Verifica tu GOOGLE_API_KEY. Error: {e}")
-    # Si no podemos configurar el modelo, no tiene sentido continuar.
     exit()
 
 # Inicializa el bot de Telegram
@@ -38,7 +46,16 @@ def handle_text_prompt(client, message):
     try:
         processing_message = message.reply("⚙️ Procesando tu petición...")
         response = model.generate_content(prompt)
-        processing_message.edit_text(response.text)
+        
+        # --- LÓGICA MEJORADA PARA ENVIAR LA RESPUESTA ---
+        if len(response.text) <= 4096:
+            # Si el mensaje es corto, editamos el mensaje original.
+            processing_message.edit_text(response.text)
+        else:
+            # Si el mensaje es largo, borramos "Procesando..." y usamos nuestra nueva función.
+            processing_message.delete()
+            send_long_message(message, response.text)
+            
     except Exception as e:
         logger.error(f"Error en handle_text_prompt: {e}")
         processing_message.edit_text(f"❌ Ocurrió un error al procesar tu petición:\n\n`{str(e)}`")
@@ -57,11 +74,15 @@ def handle_image_prompt(client, message):
         processing_message = message.reply("🖼️ Analizando la imagen con tu prompt...")
         image_path = bot.download_media(replied_message.photo.file_id)
         img = Image.open(image_path)
-        
-        # Le pasamos el prompt y la imagen al mismo modelo multimodal
         response = model.generate_content([prompt, img])
         
-        processing_message.edit_text(response.text)
+        # --- APLICAMOS LA MISMA LÓGICA MEJORADA AQUÍ ---
+        if len(response.text) <= 4096:
+            processing_message.edit_text(response.text)
+        else:
+            processing_message.delete()
+            send_long_message(message, response.text)
+
     except Exception as e:
         logger.error(f"Error en handle_image_prompt: {e}")
         processing_message.edit_text(f"❌ Ocurrió un error al analizar la imagen:\n\n`{str(e)}`")
