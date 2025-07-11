@@ -58,7 +58,7 @@ First, make sure you have Docker and docker-compose installed.
 Clone the repository and move into the project directory:
 
 ```sh
-git clone https://github.com/bisnuray/GeminiProBot
+git clone git clone https://github.com/tomasmetal23/GeminiProBot.git
 cd GeminiProBot
 ```
 
