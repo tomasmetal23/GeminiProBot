@@ -1,0 +1,11 @@
+services:
+  gemini_bot:
+    image: ghcr.io/tomasmetal23/geminiprobot:latest
+    environment:
+      - API_ID=TU_API_ID
+      - API_HASH=TU_API_HASH
+      - BOT_TOKEN=TU_BOT_TOKEN
+      - GOOGLE_API_KEY=TU_GOOGLE_API_KEY
+      - MODEL_NAME=gemini-2.5-flash
+    restart: unless-stopped
+ 
