@@ -3,6 +3,7 @@ gemini.py — GemmaProBot main entry point.
 Full async rewrite with: streaming, conversation memory, web search,
 document analysis, custom system prompts, whitelist, and status check.
 """
+__version__ = "2.0.0"  # local-gemma branch — full async rewrite
 import asyncio
 import base64
 import logging
