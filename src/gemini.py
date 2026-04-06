@@ -10,7 +10,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # --- CONEXIÓN A LM STUDIO (7900 XT via OpenAI API) ---
-client_ai = OpenAI(base_url="http://localhost:11434/v1", api_key="lm-studio")
+LM_STUDIO_URL = os.getenv("LM_STUDIO_URL", "http://localhost:11434/v1")
+client_ai = OpenAI(base_url=LM_STUDIO_URL, api_key="lm-studio")
 
 
 def encode_image(image_path):
