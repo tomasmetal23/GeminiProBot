@@ -1,10 +1,15 @@
 import os
 
-API_ID = os.getenv("API_ID", "")
+API_ID = int(os.getenv("API_ID", "0"))
 API_HASH = os.getenv("API_HASH", "")
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 
-# Esta es ahora la única fuente de verdad para el nombre del modelo.
-# Si MODEL_NAME no está en el .env, usará 'gemini-1.5-flash-latest' por defecto.
-MODEL_NAME = os.getenv("MODEL_NAME", "gemini-1.5-flash-latest") 
+MODEL_NAME = os.getenv("MODEL_NAME", "gemma-4-26b-a4b-it-uncensored")
+
+# Whitelist: comma-separated user IDs. Empty = open to everyone.
+_raw = os.getenv("ALLOWED_USERS", "")
+ALLOWED_USERS: set[int] = (
+    {int(uid.strip()) for uid in _raw.split(",") if uid.strip()}
+    if _raw.strip()
+    else set()
+)

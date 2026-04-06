@@ -8,5 +8,11 @@ pillow
 # Conexión local a LM Studio (protocolo OpenAI-compatible)
 openai
 
+# HTTP async (Brave Search API)
+httpx
+
+# Extracción de texto de PDFs
+pdfplumber
+
 # Para cargar variables de entorno en desarrollo local (opcional)
 python-dotenv
