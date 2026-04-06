@@ -1,64 +1,41 @@
 """
-search.py — Brave Search API wrapper (async).
-Get your free API key at: https://brave.com/search/api/
-Free tier: 2000 queries/month.
+search.py — DuckDuckGo search wrapper (async, no API key needed).
+Uses the duckduckgo-search library which is free and doesn't require registration.
+Note: may get rate-limited with very heavy usage, but fine for personal bots.
 """
-import os
 import logging
-import httpx
+from duckduckgo_search import DDGS
 
 logger = logging.getLogger(__name__)
 
-BRAVE_API_KEY = os.getenv("BRAVE_API_KEY", "")
-BRAVE_SEARCH_URL = "https://api.search.brave.com/res/v1/web/search"
 
-
-async def brave_search(query: str, max_results: int = 4) -> str:
+async def web_search(query: str, max_results: int = 4) -> str:
     """
-    Search using Brave Search API.
-    Returns a formatted string with results ready to inject as context.
+    Search using DuckDuckGo (no API key required).
+    Returns a formatted string with results ready to inject as LLM context.
+    Runs the blocking DDGS call in a thread to not block the async event loop.
     """
-    if not BRAVE_API_KEY:
-        return "⚠️ BRAVE_API_KEY no configurada. Añádela al .env para usar búsqueda web."
+    import asyncio
 
-    headers = {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip",
-        "X-Subscription-Token": BRAVE_API_KEY,
-    }
-    params = {
-        "q": query,
-        "count": max_results,
-        "search_lang": "es",
-        "country": "ES",
-        "text_decorations": False,
-        "spellcheck": True,
-    }
+    def _search() -> list[dict]:
+        with DDGS() as ddgs:
+            return list(ddgs.text(query, max_results=max_results))
 
     try:
-        async with httpx.AsyncClient(timeout=10.0) as client:
-            response = await client.get(BRAVE_SEARCH_URL, headers=headers, params=params)
-            response.raise_for_status()
-            data = response.json()
+        results = await asyncio.to_thread(_search)
 
-        results = data.get("web", {}).get("results", [])
         if not results:
             return f"No se encontraron resultados para: {query}"
 
         lines = [f"🔍 Resultados de búsqueda para: **{query}**\n"]
-        for i, r in enumerate(results[:max_results], 1):
+        for i, r in enumerate(results, 1):
             title = r.get("title", "Sin título")
-            url = r.get("url", "")
-            desc = r.get("description", "Sin descripción")
+            url = r.get("href", "")
+            desc = r.get("body", "Sin descripción")
             lines.append(f"{i}. **{title}**\n   {desc}\n   🔗 {url}")
 
         return "\n".join(lines)
 
-    except httpx.HTTPStatusError as e:
-        logger.error("Brave Search HTTP error: %s", e)
-        if e.response.status_code == 401:
-            return "❌ BRAVE_API_KEY inválida. Revisa tu clave en search.brave.com."
-        return f"❌ Error en búsqueda ({e.response.status_code}): {e}"
     except Exception as e:
-        logger.error("Brave Search error: %s", e)
-        return f"❌ Error al buscar: {e}"
+        logger.error("DuckDuckGo search error: %s", e)
+        return f"❌ Error al buscar en DuckDuckGo: {e}"

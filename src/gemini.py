@@ -16,7 +16,7 @@ from pyrogram.types import Message
 
 import memory
 from config import API_ID, API_HASH, BOT_TOKEN, MODEL_NAME, ALLOWED_USERS
-from search import brave_search
+from search import web_search
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -177,7 +177,7 @@ async def cmd_web(client: Client, message: Message):
     status_msg = await message.reply("🌐 Buscando en internet...")
 
     try:
-        search_results = await brave_search(query)
+        search_results = await web_search(query)
 
         await status_msg.edit_text("🧠 Procesando resultados con Gemma...")
 

@@ -1,135 +1,240 @@
-# README.md
-
-<h1 align="center">Gemini Pro Telegram Bot 🌌</h1>
+<h1 align="center">GemmaProBot 🤖✨</h1>
 
 <p align="center">
-  <em>Gemini Pro: An AI-powered Telegram bot script for generating text and image-based responses using Gemini AI</em>
+  <em>Telegram bot powered by a local Gemma model via LM Studio — no cloud, no Google API key, fully private.</em>
 </p>
-<hr>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/branch-gemma-blueviolet?style=flat-square" />
+  <img src="https://img.shields.io/badge/python-3.11-blue?style=flat-square" />
+  <img src="https://img.shields.io/badge/framework-Pyrogram%20async-green?style=flat-square" />
+  <img src="https://img.shields.io/badge/model-Gemma%204%2026B-orange?style=flat-square" />
+  <img src="https://img.shields.io/badge/search-DuckDuckGo-red?style=flat-square" />
+</p>
+
+---
 
 ## 🌟 Features
 
-- 🍪 **Text Prompt Response**: Accepts text prompts and generates text.
-- 🖼️ **Image Recognition**: Can read and interpret images.
+| Feature | Comando | Descripción |
+|---|---|---|
+| 💬 Chat con memoria | `/gem <prompt>` | Conversa con Gemma. Recuerda el hilo completo de la conversación |
+| 🌐 Búsqueda web | `/web <query>` | Busca en DuckDuckGo e inyecta los resultados como contexto para una respuesta actualizada |
+| 🖼️ Análisis de imagen | `/img` _(reply a foto)_ | Describe o analiza una imagen usando el modelo Vision |
+| 📄 Análisis de documentos | `/doc` _(reply a PDF/TXT)_ | Extrae el texto y pide a Gemma que lo resuma o analice |
+| 🧠 System prompt propio | `/system <prompt>` | Define la personalidad del bot para tu usuario |
+| 🗑️ Reset de memoria | `/reset` | Borra tu historial de conversación y empieza desde cero |
+| 📡 Estado del servidor | `/status` | Comprueba si LM Studio está online, latencia y modelos disponibles |
+| 🔒 Whitelist de usuarios | `.env` | Restringe el bot a una lista de IDs de Telegram |
 
-## Requirements
+---
 
-Before you begin, ensure you have met the following requirements for a local setup:
+## 🏗️ Arquitectura
 
--   Python 3.9 or higher.
--   All Python libraries listed in the `src/requirements.txt` file. The main libraries are `pyrogram`, `google-generativeai`, and `pillow`.
--   A Telegram bot token (you can get one from [@BotFather](https://t.me/BotFather) on Telegram).
--   A Telegram API ID and API Hash (you can get these from [my.telegram.org](https://my.telegram.org)).
--   A Google Generative AI API Key (you can get one from [Google AI Studio](https://makersuite.google.com/app/apikey)).
+```
+GemmiProBot
+├── src/
+│   ├── gemini.py       ← Bot principal (async, todos los handlers)
+│   ├── memory.py       ← Memoria persistente en SQLite por usuario
+│   ├── search.py       ← Búsqueda web via DuckDuckGo (sin API key)
+│   ├── config.py       ← Variables de entorno y whitelist
+│   └── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example        ← Plantilla de configuración
+└── data/               ← Volumen Docker: aquí vive bot_memory.db
+```
 
-## Installation
+El bot corre **100% local**:
+- **LM Studio** sirve el modelo Gemma 4 26B en tu PC con la 7900 XT
+- **Tailscale** conecta el servidor VPS con tu máquina local via IP privada
+- **Pyrogram async** maneja toda la comunicación con Telegram en modo asíncrono
 
-To install all the required libraries at once, navigate to the project's root directory and run the following command. It is highly recommended to do this inside a virtual environment.
+---
+
+## ⚙️ Requisitos
+
+- Docker y docker-compose instalados en el servidor
+- [LM Studio](https://lmstudio.ai/) corriendo en tu PC local con el servidor local activo
+- El modelo `gemma-4-26b-a4b-it-uncensored` (o cualquier compatible) cargado en LM Studio
+- Conexión Tailscale entre el VPS y tu PC local
+- Credenciales de Telegram: API ID, API Hash y Bot Token
+
+---
+
+## 🚀 Deploy con Docker (recomendado)
+
+### 1. Clona el repo y cambia a la rama gemma
 
 ```bash
-pip install -r src/requirements.txt
-```
-## Configuration
-
-1. Open the `config.py` file in your favorite text editor.
-2. Replace the placeholders for `API_ID`, `API_HASH`, `GOOGLE_API_KEY`, and `BOT_TOKEN` with your actual values:
-   - **`API_ID`**: Your API ID from [my.telegram.org](https://my.telegram.org).
-   - **`API_HASH`**: Your API Hash from [my.telegram.org](https://my.telegram.org).
-   - **`GOOGLE_API_KEY`**: To get google api key [Click Here](https://makersuite.google.com/app/apikey).
-   - **`BOT_TOKEN`**: The token you obtained from [@BotFather](https://t.me/BotFather).
-
-## Deploy the Bot
-
-```sh
 git clone https://github.com/tomasmetal23/GeminiProBot.git
 cd GeminiProBot
-pip install -r src/requirements.txt
-python src/gemini.py
+git checkout gemma
 ```
 
-## 🚀 Deploy with Docker
+### 2. Configura el entorno
 
-You can easily run this bot in a container using Docker and docker-compose.
-
-### 1. Build and Run with Docker Compose
-
-First, make sure you have Docker and docker-compose installed.
-
-Clone the repository and move into the project directory:
-
-```sh
-git clone https://github.com/tomasmetal23/GeminiProBot.git
-cd GeminiProBot
+```bash
+cp .env.example .env
+nano .env   # Rellena con tus datos reales
 ```
 
-Edit the `docker-compose.yml` file and add your API credentials in the `environment` section:
+### 3. Levanta el bot
 
-```yaml
-version: "3.8"
-services:
-  gemini_bot:
-    image: ghcr.io/tomasmetal23/geminiprobot:latest
-    environment:
-      - API_ID=your_api_id
-      - API_HASH=your_api_hash
-      - BOT_TOKEN=your_bot_token
-      - GOOGLE_API_KEY=your_google_api_key
-      - MODEL_NAME=gemini-2.5-pro  # You can use any supported Gemini model
-    restart: unless-stopped
+```bash
+docker compose up -d
 ```
 
-Replace the values with your actual API keys and tokens.  
-You can use any supported Gemini model for `MODEL_NAME` (e.g., `gemini-1.5-flash`, `gemini-2.0-flash`, `gemini-2.5-pro`).
+La imagen se descarga automáticamente desde el registro — no necesitas buildear nada localmente.
 
-### 2. Start the Bot
+```bash
+# Ver logs en tiempo real
+docker compose logs -f
 
-```sh
-docker-compose up -d
+# Detener
+docker compose down
 ```
-
-The bot will start automatically and use the environment variables you provided in `docker-compose.yml`.
 
 ---
 
-## 🛠️ Environment Variables
+## 🛠️ Variables de entorno
 
-- `API_ID`: Your Telegram API ID.
-- `API_HASH`: Your Telegram API Hash.
-- `BOT_TOKEN`: The token from [@BotFather](https://t.me/BotFather).
-- `GOOGLE_API_KEY`: Your Google Generative AI API key.
-- `MODEL_NAME`: (Optional) Gemini model name, default is `gemini-1.5-flash`. You can use newer models like `gemini-2.0-flash` or `gemini-2.5-pro` if your API key supports them.
+| Variable | Obligatoria | Descripción |
+|---|---|---|
+| `API_ID` | ✅ | Tu Telegram API ID ([my.telegram.org](https://my.telegram.org)) |
+| `API_HASH` | ✅ | Tu Telegram API Hash |
+| `BOT_TOKEN` | ✅ | Token de [@BotFather](https://t.me/BotFather) |
+| `LM_STUDIO_URL` | ✅ | URL de LM Studio, ej: `http://100.x.x.x:11434/v1` |
+| `MODEL_NAME` | ✅ | Nombre del modelo cargado en LM Studio |
+| `ALLOWED_USERS` | ❌ | IDs de Telegram separados por coma. Vacío = abierto a todos |
+| `MAX_HISTORY` | ❌ | Mensajes máximos recordados por usuario (default: `20`) |
+| `DEFAULT_SYSTEM_PROMPT` | ❌ | Prompt de sistema por defecto del modelo |
 
 ---
 
-Now you can manage your bot easily with Docker!
+## 📖 Guía de uso
 
-## How to Use the Bot 🛠️
+### 💬 `/gem` — Chat con memoria
 
-This bot offers two main features: text generation and image analysis.
+Conversa con Gemma. El bot recuerda toda la conversación (hasta `MAX_HISTORY` mensajes), así puedes hacer seguimiento sin repetir contexto.
 
-### 📝 Text Generation
+```
+/gem ¿Qué es la termodinámica?
+/gem ¿Y cuáles son sus leyes?     ← recuerda la pregunta anterior
+/gem Ponme un ejemplo con café     ← sigue el hilo
+```
 
-To generate a text response, use the `/gem` command followed by your question or instruction.
+---
 
-**Example:**
-> `/gem Write a short poem about space.`
+### 🌐 `/web` — Búsqueda web + respuesta de Gemma
 
-### 🖼️ Image Analysis
+Cuando necesites información actual que el modelo no tiene (precios, noticias, eventos recientes), usa `/web`. El bot busca en DuckDuckGo, inyecta los resultados como contexto y Gemma responde con datos frescos.
 
-To ask the bot about an image, follow these steps:
+```
+/web precio del bitcoin hoy
+/web últimas noticias sobre IA en 2025
+/web mejores GPUs para LLMs locales
+```
 
-1.  Send an image to the chat.
-2.  Reply directly to that image using the `/imgai` or `/img` command.
+> 💡 **Truco**: Si `/gem` no te da una respuesta suficientemente actualizada, repite la pregunta con `/web`.
 
-## Author 📝
+---
 
-- Name: Bisnu Ray
-- Telegram: [@SmartBisnuBio](https://t.me/SmartBisnuBio)
+### 🖼️ `/img` — Análisis de imagen
 
-## Maintainer & Latest Update 🚀
+Envía una imagen al chat, respóndele con el comando `/img` y un prompt opcional. Requiere un modelo con capacidad Vision cargado en LM Studio.
 
-- **Updated & Maintained by**: Tomás Márquez
+```
+1. Envía una foto
+2. Responde a esa foto con:
+   /img ¿Qué hay en esta imagen?
+   (o sin prompt para descripción automática)
+```
+
+---
+
+### 📄 `/doc` — Análisis de documentos
+
+Funciona igual que `/img` pero con archivos PDF, TXT o Markdown.
+
+```
+1. Envía un archivo PDF o TXT
+2. Responde a ese archivo con:
+   /doc Resume los puntos clave
+   /doc ¿Cuál es la conclusión principal?
+```
+
+---
+
+### 🧠 `/system` — System prompt personalizado
+
+Define la personalidad del bot solo para ti. Se guarda en la base de datos y persiste aunque reinicies el container.
+
+```
+/system Eres un experto en ciberseguridad que responde de forma técnica y precisa.
+/system Eres un asistente de cocina que solo habla de recetas mediterráneas.
+/system reset    ← vuelve al prompt por defecto
+/system          ← muestra el prompt actual
+```
+
+---
+
+### 🗑️ `/reset` — Borrar historial
+
+Elimina toda tu conversación guardada. Útil para cambiar de tema o si el contexto se volvió confuso.
+
+```
+/reset
+```
+
+---
+
+### 📡 `/status` — Estado del servidor
+
+Comprueba en tiempo real si LM Studio está respondiendo, cuánto tarda y qué modelos tiene disponibles.
+
+```
+/status
+```
+
+Respuesta de ejemplo:
+```
+✅ LM Studio conectado (142ms)
+
+Servidor: http://100.x.x.x:11434/v1
+Modelo activo: gemma-4-26b-a4b-it-uncensored
+
+Modelos disponibles:
+  • gemma-4-26b-a4b-it-uncensored
+```
+
+---
+
+## 🔒 Whitelist (acceso restringido)
+
+Para que solo ciertos usuarios puedan usar el bot, añade sus IDs en el `.env`:
+
+```env
+ALLOWED_USERS=123456789,987654321
+```
+
+Para obtener tu ID de Telegram habla con [@userinfobot](https://t.me/userinfobot).
+
+Si `ALLOWED_USERS` está vacío, cualquier persona puede usar el bot.
+
+---
+
+## 🔄 CI/CD — GitHub Actions
+
+El workflow `.github/workflows/docker.yml` buildea y pushea la imagen automáticamente a `ghcr.io` cuando haces push a `main` o `gemma` con cambios en `src/` o `Dockerfile`.
+
+Imagen resultante: `ghcr.io/tomasmetal23/gemmaprobot:latest`
+
+---
+
+## Maintainer 🚀
+
+- **Tomás Márquez**
   - Telegram: [@natebrako](https://t.me/natebrako)
-  - *Current Status: Updated to 2025 and ongoing maintenance.*
-  
-Feel free to reach out if you have any questions or feedback.
+
+> *Rama `gemma`: versión local-first del bot, sin dependencia de APIs de Google. El modelo corre en tu propia GPU.*

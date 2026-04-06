@@ -8,8 +8,8 @@ pillow
 # Conexión local a LM Studio (protocolo OpenAI-compatible)
 openai
 
-# HTTP async (Brave Search API)
-httpx
+# Búsqueda web sin API key
+duckduckgo-search
 
 # Extracción de texto de PDFs
 pdfplumber
