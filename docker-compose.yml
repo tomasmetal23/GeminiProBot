@@ -1,11 +1,10 @@
 services:
-  gemini_bot:
-    image: ghcr.io/tomasmetal23/geminiprobot:latest
+  gemma_bot:
+    build: .
+    network_mode: "host"   # Necesario para que localhost:11434 apunte a LM Studio en tu PC
     environment:
-      - API_ID=TU_API_ID
-      - API_HASH=TU_API_HASH
-      - BOT_TOKEN=TU_BOT_TOKEN
-      - GOOGLE_API_KEY=TU_GOOGLE_API_KEY
-      - MODEL_NAME=gemini-2.5-flash
+      - API_ID=
+      - API_HASH=
+      - BOT_TOKEN=
+      - MODEL_NAME=gemma-4-26b-a4b-it-uncensored
     restart: unless-stopped
- 

@@ -2,9 +2,11 @@
 pyrogram[fast]
 tgcrypto
 
-# Google Generative AI
-google-generativeai
+# Para análisis de imágenes (Base64)
 pillow
 
-# Para cargar el archivo .env en desarrollo local
+# Conexión local a LM Studio (protocolo OpenAI-compatible)
+openai
+
+# Para cargar variables de entorno en desarrollo local (opcional)
 python-dotenv
