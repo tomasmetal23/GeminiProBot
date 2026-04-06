@@ -2,12 +2,6 @@ services:
   gemma_bot:
     build: .
     network_mode: "host"
-    environment:
-      # --- Telegram ---
-      - API_ID=
-      - API_HASH=
-      - BOT_TOKEN=
-      # --- LM Studio ---
-      - LM_STUDIO_URL=http://100.x.x.x:11434/v1   # IP Tailscale de tu PC local
-      - MODEL_NAME=gemma-4-26b-a4b-it-uncensored
+    env_file:
+      - .env
     restart: unless-stopped

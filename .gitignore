@@ -1,7 +1,6 @@
-# Docker
-docker-compose.yml
-# Archivos de entorno y secretos
+# Archivos de entorno y secretos (NUNCA subir .env real a git)
 .env
+# .env.example SÍ se sube — contiene valores de ejemplo, no secretos reales
 
 # Entornos virtuales de Python
 bot-env/
