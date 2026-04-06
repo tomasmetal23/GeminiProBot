@@ -1,6 +1,6 @@
 services:
   gemma_bot:
-    build: .
+    image: ghcr.io/tomasmetal23/gemmaprobot:latest
     network_mode: "host"
     env_file:
       - .env

@@ -37,5 +37,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/geminiprobot:latest
+          tags: ghcr.io/tomasmetal23/gemmaprobot:latest
           platforms: linux/amd64,linux/arm64
