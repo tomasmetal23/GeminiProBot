@@ -2,7 +2,7 @@ name: Build and Push Docker Image
 
 on:
   push:
-    branches: [ main, gemma ]
+    branches: [ main, local-gemma ]
     paths:
       - 'src/**'
       - 'Dockerfile'
