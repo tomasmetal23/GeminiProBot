@@ -10,3 +10,7 @@ __pycache__/
 # Archivos de sesión de Pyrogram
 *.session
 *.session-journal
+session/
+
+# Base de datos local
+data/
