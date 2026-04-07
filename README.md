@@ -151,6 +151,10 @@ Envía una imagen al chat, respóndele con el comando `/img` y un prompt opciona
    (o sin prompt para descripción automática)
 ```
 
+> ⚠️ **IMPORTANTE SOBRE MODELOS VISION:**  
+> Modelos estándar como **Gemma 4, Llama 3 o Mistral son exclusivamente de texto**. Si les pasas una imagen a través del comando `/img`, LM Studio devolverá un error 400 (`Model does not support images`). Para poder usar el comando `/img` necesitas cargar un modelo **multimodal (Vision)** en LM Studio, como por ejemplo *Qwen-VL-Chat*, *Llava* o *Moondream*.
+
+
 ---
 
 ### 📄 `/doc` — Análisis de documentos
