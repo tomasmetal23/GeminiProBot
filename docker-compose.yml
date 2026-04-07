@@ -5,5 +5,6 @@ services:
     env_file:
       - .env
     volumes:
-      - ./data:/app/data   # SQLite persistent memory
+      - ./data:/app/data       # SQLite persistent memory
+      - ./session:/app/session # Pyrogram session files
     restart: unless-stopped

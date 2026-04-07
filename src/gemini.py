@@ -37,7 +37,13 @@ ai = AsyncOpenAI(base_url=LM_STUDIO_URL, api_key="lm-studio")
 # ---------------------------------------------------------------------------
 # Pyrogram bot (async)
 # ---------------------------------------------------------------------------
-bot = Client("GemmaLocalBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+bot = Client(
+    "GemmaLocalBot",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN,
+    workdir="/app/session",
+)
 
 # ---------------------------------------------------------------------------
 # Helpers
