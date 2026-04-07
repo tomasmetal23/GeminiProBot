@@ -441,16 +441,9 @@ async def cmd_status(client: Client, message: Message):
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
-
-async def main():
+if __name__ == "__main__":
     memory.init_db()
     logger.info("🤖 GemmaProBot iniciando con modelo: %s", MODEL_NAME)
     logger.info("🔗 Conectado a LM Studio: %s", LM_STUDIO_URL)
-    await bot.start()
     logger.info("✅ Bot online y listo.")
-    await idle()  # Pyrogram proper idle
-    await bot.stop()
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
+    bot.run()
