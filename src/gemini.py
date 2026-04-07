@@ -12,7 +12,7 @@ import time
 
 import pdfplumber
 from openai import AsyncOpenAI
-from pyrogram import Client, filters
+from pyrogram import Client, filters, idle
 from pyrogram.types import Message
 
 import memory
@@ -448,7 +448,8 @@ async def main():
     logger.info("🔗 Conectado a LM Studio: %s", LM_STUDIO_URL)
     await bot.start()
     logger.info("✅ Bot online y listo.")
-    await asyncio.get_event_loop().create_future()  # run forever
+    await idle()  # Pyrogram proper idle
+    await bot.stop()
 
 
 if __name__ == "__main__":
